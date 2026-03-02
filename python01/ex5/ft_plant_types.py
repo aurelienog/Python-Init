@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 
 class Plant:
     def __init__(self, name, height, age, plant_type):
@@ -27,7 +27,7 @@ class Flower(Plant):
 
 
 class Tree(Plant):
-    def __init__(self, name, height, age, trunk_diameter):
+    def __init__(self, name: str, height: int, age: int, trunk_diameter: int):
 
         super().__init__(name, height, age, "Tree")
         self.trunk_diameter = trunk_diameter
@@ -41,7 +41,8 @@ class Tree(Plant):
 
 
 class Vegetable(Plant):
-    def __init__(self, name, height, age, harvest_season, nutritional_value):
+    def __init__(self, name: str, height: int, age: int, harvest_season: str,
+                 nutritional_value: str):
         super().__init__(name, height, age, "Vegetable")
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
@@ -64,7 +65,7 @@ def main():
     ]
     i = 0
     print("=== Garden Plant Types ===\n")
-    while (i < 6):
+    while i < 3:
         plants[i].describe()
         if (plants[i].plant_type == "Flower"):
             plants[i].bloom()

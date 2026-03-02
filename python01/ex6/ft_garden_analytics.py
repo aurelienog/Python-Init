@@ -1,44 +1,77 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
+
+class Plant:
+    def __init__(self, name: str, height: int, age: int):
+        self.name = name
+        self.height = height
+        self.age = age
+
+    def describe(self):
+        print(f"{self.name}: {self.height}cm", end="")
+
+class FloweringPlant(Plant):
+    def __init__(self, name: str, height: int, age: int, color: str):
+        super().__init__(name, height, age)
+        self.color = color
+    
+    def describe(self):
+        super().describe()
+        print(f" , {self.color} flowers (blooming)", end="")
+
+class PrizeFlower(FloweringPlant):
+    def __init__(self, name: str, height: int, age: int, color: str, price: int):
+        super().__init__(name, height, age, color)
+        self.price = price
+
+    def describe(self):
+        super().describe()
+        print(f" , Prize points: {self.price}")
+
+
+class Garden:
+
+    def __init__(self, owner: str):
+        self.collection = []
+        self.count = 0
+        self.owner = ""
+
+    def add_plant(self, plant: Plant):
+        new_list = [None] * (self.count + 1)
+        i = 0
+        while (i < self.count):
+            new_list[i] = self.collection[i]
+            i += 1
+        new_list[i] = plant
+        self.collection = new_list
+        self.count += 1
+
+    def report(self):
+        print(f"=== {self.owner}'s Garden Report ===")
+        print("Plants in garden:")
+        i = 0
+        while (i < self.count):
+            i+= 1
+            plant = self.collection[i]
+            print(f"- {plant.describe()}")
 
 class GardenManager:
-    gardens = []
 
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
-        GardenManager.gardens += 1
+        self.gardens = []
     
     @staticmethod
-    def GardenStats():
-        return f""
-
 
     @classmethod
     def create_garden_network(cls):
         return f"{cls.count}"
 
-class Garden:
-    def __init__(self):
-        self. 
-
-    def added(plant):
-        self.collection = 
+    class GardenStats:
+        def __init__(self):
+        
 
 
-    
 
-class Plant:
-    def __init__(self, name, height, age):
-        self.name = name
-        self.height = height
-        self.age = age
-
-class FloweringPlant(Plant):
-    def __init__(self, name, height, age):
-        super().__init__(name, height, age)
-
-class PrizeFlower(FloweringPlant):
-    def __init__(self, name, height, age):
-        super().__init__(name, height, age)
 
 
 def main():

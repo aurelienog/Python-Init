@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 
 class Plant:
     def __init__(self, name: str, height: int, days: int):
@@ -23,7 +23,7 @@ def main():
     p1.get_info()
     print("=== Day 7 ===")
     i = 0
-    while (i < 6):
+    while i < 6:
         p1.grow()
         p1.age()
         p2.grow()

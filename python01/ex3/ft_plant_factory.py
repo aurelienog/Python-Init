@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 
 class Plant:
     def __init__(self, name: str, height: int, days: int):
@@ -27,7 +27,7 @@ def main():
     ]
     i = 0
     print("=== Plant Factory Output ===")
-    while (i < 5):
+    while i < 5:
         print(f"Created: {plants[i].name} ({plants[i].height}cm,", end=" ")
         print(f"{plants[i].days} days)")
         i += 1
