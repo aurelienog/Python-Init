@@ -28,12 +28,19 @@ def print_distance(position: tuple) -> None:
 
 
 def check_coordinates(position: list) -> None:
+    is_first = 1
     try:
         position = convert([position[0], position[1], position[2]])
     except ValueError as e:
+        print(f'Parsing invalid coordinates: "{position[0]}', end=",")
+        print(f'{position[1]}', end=",")
+        print(f'{position[2]}"')
         print(f"Error parsing coordinates: {e}")
         print(f'Error details - Type: ValueError, Args: ("{e}",)')
     else:
+        if is_first:
+            print("Position created: ", end="")
+        is_first = 0
         print_distance(position)
 
 
@@ -43,12 +50,10 @@ def main() -> None:
               " <coordinate1> <coordinate2> <coordinate3>")
         return
     print("=== Game Coordinate System ===\n")
-    print("Position created: ", end="")
     check_coordinates([sys.argv[1], sys.argv[2], sys.argv[3]])
     print('\nParsing coordinates: "3,4,0"')
     print("Parsed position: ", end="")
     check_coordinates(["3", "4", "0"])
-    print('\nParsing invalid coordinates: "abc,def,ghi"')
     check_coordinates(["abc", "def", "ghi"])
     print("\nUnpacking demonstration:")
     coordinates = (3, 4, 0)

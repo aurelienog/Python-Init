@@ -11,7 +11,7 @@ def convert_atoi(arguments: list) -> list:
             int(arguments[i])
             valid_numbers += 1
         except ValueError:
-            pass
+            print(f"Error: '{arguments[i]}' is not a number")
         i += 1
     if (valid_numbers == 0):
         return []
