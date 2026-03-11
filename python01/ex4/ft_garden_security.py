@@ -2,28 +2,13 @@
 
 class SecurePlant:
 
-    def __init__(self, name: str, height: int, age: int):
-
-        created = 1
+    def __init__(self: "SecurePlant", name: str) -> None:
         self.__name = name
-        if height >= 0:
-            self.__height = height
-        else:
-            print(f"Invalid operation attempted: height {height}cm",
-                  "[REJECTED]")
-            print("Security: Negative height rejected")
-            created = 0
-        if age >= 0:
-            self.__age = age
-        else:
-            print(f"Invalid operation attempted: age {age} days",
-                  "[REJECTED]")
-            print("Security: Negative age rejected")
-            created = 0
-        if created:
-            print(f"Plant created: {self.__name}")
+        self.__height = 0
+        self.__age = 0
+        print(f"Plant created: {name}")
 
-    def set_height(self, height: int):
+    def set_height(self: "SecurePlant", height: int) -> None:
         if height >= 0:
             self.__height = height
             print(f"Height updated: {self.__height}cm [OK]")
@@ -32,7 +17,7 @@ class SecurePlant:
                   "[REJECTED]")
             print("Security: Negative height rejected")
 
-    def set_age(self, age: int):
+    def set_age(self: "SecurePlant", age: int) -> None:
         if age >= 0:
             self.__age = age
             print(f"Age updated: {self.__age} days [OK]")
@@ -41,21 +26,21 @@ class SecurePlant:
                   "[REJECTED]")
             print("Security: Negative age rejected")
 
-    def get_height(self):
+    def get_height(self: "SecurePlant") -> int:
         return self.__height
 
-    def get_age(self):
+    def get_age(self: "SecurePlant") -> int:
         return self.__age
 
-    def get_info(self):
+    def get_info(self: "SecurePlant") -> None:
         print(f"Current plant: {self.__name} ({self.__height}cm, {self.__age}",
               "days)")
 
 
-def main():
+def main() -> None:
 
     print("=== Garden Security System ===")
-    rose = SecurePlant("Rose", 15, 20)
+    rose = SecurePlant("Rose")
     rose.set_height(25)
     rose.set_age(30)
     print("")

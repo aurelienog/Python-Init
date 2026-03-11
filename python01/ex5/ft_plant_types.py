@@ -1,59 +1,62 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, name, height, age, plant_type):
+    def __init__(self: "Plant", name: str, height: int, age: int,
+                 plant_type: str) -> None:
         self.name = name
         self.height = height
         self.age = age
         self.plant_type = plant_type
 
-    def describe(self):
-        return print(f"{self.name} ({self.plant_type}): "
-                     f"{self.height}cm, {self.age} days", end="")
+    def describe(self: "Plant") -> None:
+        print(f"{self.name} ({self.plant_type}): "
+              f"{self.height}cm, {self.age} days", end="")
 
 
 class Flower(Plant):
-    def __init__(self, name, height, age, color):
+    def __init__(self: "Flower", name: str, height: int, age: int,
+                 color: str) -> None:
 
         super().__init__(name, height, age, "Flower")
         self.color = color
 
-    def describe(self):
+    def describe(self: "Flower") -> None:
         super().describe()
         print(f", {self.color} color")
 
-    def bloom(self):
+    def bloom(self: "Flower") -> None:
         print(f"{self.name} is blooming beautifully!")
 
 
 class Tree(Plant):
-    def __init__(self, name: str, height: int, age: int, trunk_diameter: int):
+    def __init__(self: "Tree", name: str, height: int, age: int,
+                 trunk_diameter: int) -> None:
 
         super().__init__(name, height, age, "Tree")
         self.trunk_diameter = trunk_diameter
 
-    def describe(self):
+    def describe(self: "Tree") -> None:
         super().describe()
         print(f", {self.trunk_diameter}cm diameter")
 
-    def produce_shade(self):
+    def produce_shade(self: "Tree") -> None:
         print(f"{self.name} provides 78 square meters of shade")
 
 
 class Vegetable(Plant):
-    def __init__(self, name: str, height: int, age: int, harvest_season: str,
-                 nutritional_value: str):
+    def __init__(self: "Vegetable", name: str, height: int, age: int,
+                 harvest_season: str, nutritional_value: str) -> None:
         super().__init__(name, height, age, "Vegetable")
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
 
-    def describe(self):
+    def describe(self: "Vegetable") -> None:
         super().describe()
         print(f", {self.harvest_season} harvest")
         print(f"{self.name} is rich in {self.nutritional_value}")
 
 
-def main():
+def main() -> None:
 
     plants = [
         Flower("Rose", 25, 30, "red"),
