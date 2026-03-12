@@ -14,7 +14,7 @@ def garden_operations() -> None:
         print("Caught ZeroDivisionError: division by zero")
     print("\nTesting FileNotFoundError...")
     try:
-        open("test.txt", "r")
+        open("missing.txt", "r")
     except FileNotFoundError:
         print("Caught FileNotFoundError: No such file 'missing.txt'")
     print("\nTesting KeyError...")
@@ -35,9 +35,9 @@ def test_error_types() -> None:
     garden_operations()
 
 
-# def main() -> None:
-#     test_error_types()
+def main() -> None:
+    test_error_types()
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
