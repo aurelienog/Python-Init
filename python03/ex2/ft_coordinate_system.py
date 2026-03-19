@@ -28,19 +28,16 @@ def print_distance(position: tuple) -> None:
 
 
 def check_coordinates(position: list) -> None:
-    is_first = 1
     try:
         position = convert([position[0], position[1], position[2]])
     except ValueError as e:
-        print(f'Parsing invalid coordinates: "{position[0]}', end=",")
+        print(f'\nParsing invalid coordinates: "{position[0]}', end=",")
         print(f'{position[1]}', end=",")
         print(f'{position[2]}"')
         print(f"Error parsing coordinates: {e}")
         print(f'Error details - Type: ValueError, Args: ("{e}",)')
     else:
-        if is_first:
-            print("Position created: ", end="")
-        is_first = 0
+        print("Position created: ", end="")
         print_distance(position)
 
 

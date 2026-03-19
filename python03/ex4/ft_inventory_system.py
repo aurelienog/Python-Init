@@ -54,9 +54,9 @@ def create_categories(inventory: dict) -> None:
         "Scarce": {}
     }
     for key, value in inventory.items():
-        if value < 4:
+        if value < 5:
             categories["Scarce"][key] = value
-        elif value >= 4 and value < 7:
+        elif value >= 5 and value < 7:
             categories["Moderate"][key] = value
         else:
             categories["Abundant"][key] = value
@@ -79,10 +79,10 @@ def report_stats(inventory: dict) -> None:
         print(f"Most abundant: {item} ({max_value} unit)")
     else:
         print(f"Most abundant: {item} ({max_value} units)")
-    min_value = 0
+    min_value = None
     item = None
     for key, value in inventory.items():
-        if value < max_value:
+        if min_value is None or value < min_value:
             item = key
             min_value = value
     if min_value == 1:
@@ -102,7 +102,9 @@ def report_current(inventory: dict, qty: int) -> None:
 
 
 def make_inventory(list: list) -> dict:
-    inventory = dict(list)
+    inventory = {}
+    for key, value in list:
+        inventory[key] = inventory.get(key, 0) + value
     print("=== Inventory System Analysis ===")
     suma = count(inventory)
     print(f"Total items in inventory: {suma}")
@@ -138,6 +140,8 @@ def separate(str: str, size: int) -> tuple:
     while i < size and str[i] != ':':
         i += 1
     key = ft_substr(str, 0, i)
+    if i == size or str[i] != ':':
+        raise ValueError("Wrong sintaxis: 'item:qty' expected")
     if i == size or i + 1 == size:
         raise ValueError("Quantity is missing")
     i += 1
@@ -146,8 +150,11 @@ def separate(str: str, size: int) -> tuple:
         j += 1
     try:
         value = ft_atoi(ft_substr(str, i, size))
+        if value == 0:
+            raise ValueError("Quantity must be positive")
     except ValueError:
         raise ValueError(f"'{ft_substr(str, i, size)}' is not a valid number")
+
     return (key, value)
 
 
