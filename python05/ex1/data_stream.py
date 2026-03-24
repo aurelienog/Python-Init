@@ -28,7 +28,7 @@ class DataStream(ABC):
 class SensorStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.temperatures = []
+        self.temperatures: list[dict] = []
 
     def process_batch(self, data_batch: List[Any]) -> str:
         formatted_str = "["
@@ -60,11 +60,14 @@ class SensorStream(DataStream):
                     criteria: Optional[str] = None) -> List[Any]:
         if not criteria:
             return data_batch
-        return [item for item in data_batch
-                for key in item
-                if isinstance(item, dict)
-                and key in ("temp", "humidity", "pressure")
-                and item[key] > 20]
+        try:
+            return [item for item in data_batch
+                    for key in item
+                    if isinstance(item, dict)
+                    and key in ("temp", "humidity", "pressure")
+                    and item[key] > 20]
+        except Exception:
+            return data_batch
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         count = 0
@@ -85,8 +88,11 @@ class SensorStream(DataStream):
 
     def report(self) -> str:
         data = self.get_stats()
-        return (f"Sensor analysis: {data['processed_count']} "
-                f"readings processed, avg temp: {data['average_temp']}°C")
+        try:
+            return (f"Sensor analysis: {data['processed_count']} "
+                    f"readings processed, avg temp: {data['average_temp']}°C")
+        except Exception:
+            return "Sensor error"
 
     def report_summary(self, data_batch: List[Any]) -> str:
         self.process_batch(data_batch)
@@ -105,8 +111,8 @@ class SensorStream(DataStream):
 class TransactionStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.buy = []
-        self.sell = []
+        self.buy: list[dict] = []
+        self.sell: list[dict] = []
 
     def process_batch(self, data_batch: List[Any]) -> str:
         formatted_str = "["
@@ -146,6 +152,7 @@ class TransactionStream(DataStream):
                     for key in item
                     if isinstance(item, dict) and key in ("sell", "buy")
                     and item[key] > 100]
+        return data_batch
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         buy_total = 0
@@ -161,7 +168,7 @@ class TransactionStream(DataStream):
 
     def report(self) -> str:
         data = self.get_stats()
-        if data["net_flow"] > 0:
+        if isinstance(data["net_flow"], (int, float)) and data["net_flow"] > 0:
             return (f"Transaction analysis: {data['processed_count']} "
                     f"operations, net flow: +{data['net_flow']} units")
         else:
@@ -188,7 +195,7 @@ class TransactionStream(DataStream):
 class EventStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.errors = []
+        self.errors: List[str] = []
 
     def process_batch(self, data_batch: List[Any]) -> str:
         self.processed_count = 0
@@ -220,7 +227,7 @@ class EventStream(DataStream):
 
     def report(self) -> str:
         data = self.get_stats()
-        if data["error"] > 1:
+        if isinstance(data["error"], (int, float)) and data["error"] > 1:
             return (f"Event analysis: {data['processed_count']} events"
                     f", {data['error']} errors detected")
         else:
@@ -232,7 +239,7 @@ class EventStream(DataStream):
         return (f"- Event data: {self.processed_count} events processed")
 
     def report_critical(self, data_batch: List[Any]) -> str:
-        return None
+        return ""
 
 
 class StreamProcessor():
@@ -242,7 +249,7 @@ class StreamProcessor():
     def add_stream(self, stream: DataStream) -> None:
         self.streams = [*self.streams, stream]
 
-    def report_all(self, data_batches: List[List[Any]]) -> None:
+    def report_all(self, data_batches: List[Any]) -> None:
         i = 0
         for stream in self.streams:
             try:
@@ -273,7 +280,8 @@ class StreamProcessor():
                     if is_first:
                         print(f"{content}", end="")
                     else:
-                        print(f", {content}", end="")
+                        if content:
+                            print(f", {content}", end="")
                     is_first = False
             except Exception as e:
                 print(f"\nError processing stream {stream.id}: {e}\n")

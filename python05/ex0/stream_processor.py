@@ -28,8 +28,10 @@ class NumericProcessor(DataProcessor):
         for num in data:
             suma += num
             length += 1
-        return self.format_output(f"Processed {length} numeric values,"
-                                  f" sum={suma}, avg={(suma/length):.1f}")
+        if length == 0:
+            return "ERROR: empty data"
+        return super().format_output(f"Processed {length} numeric values,"
+                                     f" sum={suma}, avg={(suma/length):.1f}")
 
     def validate(self, data: Any) -> bool:
         number: int
@@ -40,9 +42,6 @@ class NumericProcessor(DataProcessor):
         except TypeError:
             return False
         return True
-
-    def format_output(self, result: str) -> str:
-        return result
 
 
 class TextProcessor(DataProcessor):
@@ -61,8 +60,8 @@ class TextProcessor(DataProcessor):
             elif char == " ":
                 in_word = False
 
-        return self.format_output(f"Processed text: {count} characters,"
-                                  f" {words} words")
+        return super().format_output(f"Processed text: {count} characters,"
+                                     f" {words} words")
 
     def validate(self, data: Any) -> bool:
         text: str = "test concatenate"
@@ -72,9 +71,6 @@ class TextProcessor(DataProcessor):
             return False
         return True
 
-    def format_output(self, result: str) -> str:
-        return result
-
 
 class LogProcessor(DataProcessor):
 
@@ -83,10 +79,10 @@ class LogProcessor(DataProcessor):
             return "ERROR: not a log"
         result: str
         if data[:5] == "ERROR":
-            result: str = "[ALERT] ERROR level detected: Connection timeout"
+            result = "[ALERT] ERROR level detected: Connection timeout"
         else:
-            result: str = "[INFO] INFO level detected: System ready"
-        return f"{self.format_output(result)}"
+            result = "[INFO] INFO level detected: System ready"
+        return f"{super().format_output(result)}"
 
     def validate(self, data: Any) -> bool:
         try:
@@ -98,9 +94,6 @@ class LogProcessor(DataProcessor):
                 return False
         except TypeError:
             return False
-
-    def format_output(self, result: str) -> str:
-        return result
 
 
 def process_numeric() -> None:
