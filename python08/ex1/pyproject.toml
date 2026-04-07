@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "Loading Programs"
+version = "0.1.0"
+description = ""
+authors = ["aunoguei"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.11" 
+matplotlib = "3.10.8"
+numpy = "2.4.4"
+pandas = "3.0.2"
+requests = "2.33.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
