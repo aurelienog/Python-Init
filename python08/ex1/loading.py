@@ -6,13 +6,21 @@ from importlib.metadata import version, PackageNotFoundError
 
 def analyze_data() -> None:
     # import requests
-    import numpy
-    import pandas
-    import matplotlib.pyplot
-    matrix = numpy.random.randint(0, 100, size=1000)
-    frame = pandas.DataFrame({"value": matrix})
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
+
+    print("\nAnalyzing Matrix data..."
+          "\nProcessing 1000 data points..."
+          "\nGenerating visualization...")
+    matrix = np.random.randint(0, 100, size=1000)
+    frame = pd.DataFrame({"value": matrix})
     summary = frame["value"].describe()
-    print(summary)
+
+    print("\nAnalysis complete")
+    plt.plot(summary)
+    plt.savefig("matrix_analysis.png", bbox_inches='tight')
+    print("Results saved to: matrix_analysis.png")
 
 
 def check_installation(libraries: list[Tuple[str, str]]) -> bool:
@@ -45,12 +53,6 @@ def main() -> None:
     if not ready:
         return
     analyze_data()
-
-    print("\nAnalyzing Matrix data..."
-          "\nProcessing 1000 data points..."
-          "\nGenerating visualization...")
-
-    print("\nAnalysis complete")
 
 
 if __name__ == "__main__":
