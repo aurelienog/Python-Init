@@ -20,12 +20,16 @@ def create_creatures(factory: CreatureFactory) -> None:
     print("Testing factory")
     try:
         base = factory.create_base()
+        print(base.describe())
+        print(base.attack())
+    except Exception as e:
+        print(f"Error creating base creatures: {e}")
+
+    try:
         evolved = factory.create_evolved()
     except Exception as e:
-        print(f"Error creating creatures: {e}")
+        print(f"Error creating evolved creatures: {e}")
         return
-    print(base.describe())
-    print(base.attack())
     print(evolved.describe())
     print(evolved.attack())
     print("")
