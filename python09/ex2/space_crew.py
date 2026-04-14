@@ -93,11 +93,12 @@ class SpaceMission(BaseModel):
 
         if self.duration_days > 365:
             if experimented_members < (len(self.crew) / 2):
-                errors.append('Long missions (> 365 days) need'
+                errors.append('Long missions (> 365 days) need '
                               '50% experienced crew (5+ years)')
 
         if not has_leader:
-            errors.append("Must have at least one Commander or Captain")
+            errors.append("Mission must have at least one Commander"
+                          " or Captain")
 
         if has_inactive_member:
             errors.append("All crew members must be active")
@@ -366,7 +367,7 @@ def main() -> None:
             {
                 'member_id': 'CM041',
                 'name': 'William Davis',
-                'rank': 'captain',
+                'rank': 'cadet',
                 'age': 35,
                 'specialization': 'Medical Officer',
                 'years_experience': 14,
@@ -375,7 +376,7 @@ def main() -> None:
             {
                 'member_id': 'CM042',
                 'name': 'Sarah Smith',
-                'rank': 'captain',
+                'rank': 'cadet',
                 'age': 55,
                 'specialization': 'Research',
                 'years_experience': 30,
@@ -384,7 +385,7 @@ def main() -> None:
             {
                 'member_id': 'CM043',
                 'name': 'Elena Garcia',
-                'rank': 'commander',
+                'rank': 'cadet',
                 'age': 55,
                 'specialization': 'Research',
                 'years_experience': 30,
@@ -439,9 +440,11 @@ def main() -> None:
             print("Valid mission created:")
             print_mission(m)
         except ValidationError as e:
+            print("Expected validation error:")
             for error in e.errors():
-                print(f"[ERROR] {error["msg"]}")
-        print("\n=========================================")
+                message = error["msg"]
+                print(message)
+        print("\n=========================================\n")
 
 
 if __name__ == "__main__":
