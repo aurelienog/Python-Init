@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from pydantic import (BaseModel, ConfigDict, Field,     # type: ignore
                       ValidationError, model_validator)  # type: ignore
 from datetime import datetime
@@ -67,6 +69,19 @@ class AlienContact(BaseModel):
         if errors:
             raise ValueError("; ".join(errors))
         return self
+
+
+def print_contact(contact: AlienContact) -> None:
+    print("Valid contact report:")
+    print(f"ID: {contact.contact_id}")
+    print(f"Type: {contact.contact_type.value}")
+    print(f"Location: {contact.location}")
+    print(f"Signal: {contact.signal_strength}/10")
+    print(f"Duration: {contact.duration_minutes} minutes")
+    print(f"Witnesses: {contact.witness_count}")
+    if contact.message_received:
+        print(f"Message: '{contact.message_received}'")
+    print("")
 
 
 def main() -> None:
@@ -248,13 +263,13 @@ def main() -> None:
         print("======================================")
         try:
             c = AlienContact(**contact)
-            for key, value in c:
-                print(f"{key}: {value}")
+            print_contact(c)
         except ValidationError as error:
+            print("Expected validation error:")
             for err in error.errors():
-                print(f"[ERROR] {err['msg'].replace("Value error, ", "")
-                                 .replace("; ", "\n")}"
-                      )
+                err = err['msg'].split(", ")[1]
+                for message in err.split("; "):
+                    print(message)
         print("======================================")
 
 
