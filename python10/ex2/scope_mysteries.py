@@ -74,11 +74,17 @@ def print_factory() -> None:
 def print_memory() -> None:
     print("\nTesting memory vault...")
     vault = memory_vault()
+    data = [{"secret": 42}]
+    # data = [{"secret": 42}, {"pwd": "secreto"}, {"sec": "Oops"}]
+    for item in data:
+        for key, value in item.items():
+            print(f"Store '{key}' = {value}")
+            vault["store"](f"{key}", value)
 
-    print("Store 'secret' = 42")
-    vault["store"]("secret", 42)
+    for item in data:
+        for key, value in item.items():
+            print(f"Recall '{key}': {vault['recall'](key)}")
 
-    print(f"Recall 'secret': {vault['recall']('secret')}")
     print(f"Recall 'unknown': {vault['recall']('unknown')}")
 
 
